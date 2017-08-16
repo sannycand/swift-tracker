@@ -1,10 +1,11 @@
+from django.contrib.auth import login, logout
 from django.shortcuts import render
 
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer, LoginSerializer
 from .models import User
 
 
@@ -18,3 +19,15 @@ class UserAPI(viewsets.ViewSet):
 
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400) 
+
+    def login(self, *args, **kwargs):
+        serializer = LoginSerializer(data=self.request.data)
+        if serializer.is_valid():
+            login(self.request, serializer.user)
+
+            return Response(serializer.data, status=204)
+        return Response(serializer.errors, status=400) 
+        
+    def logout(self, *args, **kwargs):
+        logout(self.request)
+        return Response(status=204)

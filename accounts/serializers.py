@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -32,8 +34,28 @@ class SignupSerializer(serializers.ModelSerializer):
         position = validated_data['position']
         if position == 'management':
             user.is_admin = True
-            
+
         user.set_password(validated_data['password'])
         user.save()
 
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    """ login serializer
+    """
+    user = None
+
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        email = data.get('email')
+        password = data.get('password')
+
+        self.user = authenticate(email=email, password=password)
+        if self.user is None or not self.user.is_active:
+            raise serializers.ValidationError("Invalid email or password")
+
+        return data
+
