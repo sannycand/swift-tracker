@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts',
-    'projects'
+    'projects', 
+
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +57,20 @@ MIDDLEWARE = [
 AUTH_USER_MODEL = 'accounts.User'
 
 ROOT_URLCONF = 'tracker.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ],
+    'COERCE_DECIMAL_TO_STRING': False,
+}
 
 TEMPLATES = [
     {
