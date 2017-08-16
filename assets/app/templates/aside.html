@@ -1,0 +1,38 @@
+<aside class="aside-nav">
+    <form name="signupForm" ng-submit="ctrl.signUp(ctrl.form)" novalidate>
+        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg.email[0] }}</span>
+
+        <div class="form-group">
+            <span class="text-danger" ng-show="signupForm.email.$dirty && signupForm.email.$error.pattern">Not a valid email format</span>
+            <input type="email" name="email" 
+                ng-model="ctrl.form.email" 
+                class="form-control" 
+                placeholder="Email" 
+                ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" 
+                required>
+        </div>
+        <div class="form-group">
+            <select name="position" ng-model="ctrl.form.position" class="form-control" required>
+                <option ng-selected="selected" value="">Select Position</option>
+                <option value="developer">Developer</option>
+                <option value="designer">Designer</option>
+                <option value="management">Management</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="password" ng-model="ctrl.form.password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+            <span class="text-danger" ng-show="signupForm.confirm_password.$error.pattern">Password Did Not Match</span>
+            <input type="password" name="confirm_password" 
+                ng-model="ctrl.form.confirm_password" 
+                ng-pattern="ctrl.form.password" 
+                class="form-control" 
+                placeholder="Confirm Password" 
+                required>
+        </div>
+        <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-default">Sign Up</button>
+    </form> 
+
+</aside>

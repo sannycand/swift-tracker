@@ -1,0 +1,29 @@
+
+
+.app {
+    height: 100vh;
+    overflow-y: auto;
+    margin-left: 230px;
+    .app-aside {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        display: flex;
+        z-index: 600;
+        .aside-nav {
+            background: #3863a3;
+            display: flex;
+            flex-direction: column;
+            width: 230px;
+            padding: 25px 25px 0;
+            position: relative;
+        }
+    }
+
+    .app-main {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+}
