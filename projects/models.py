@@ -19,3 +19,15 @@ class Project(models.Model):
 
     def __str__(self):
         return '{}-{}'.format(self.name, self.owner)
+
+
+class ProjectMember(models.Model):
+    project = models.ForeignKey('Project')
+    worker = models.ForeignKey(settings.AUTH_USER_MODEL)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return '{}-{}'.format(self.project.name, self.worker)
+
+    class Meta:
+        unique_together = ('project', 'worker')
