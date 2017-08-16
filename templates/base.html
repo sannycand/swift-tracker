@@ -1,9 +1,36 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tracker</title>
+    <title>Swift Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+    <base href="/"> 
 </head>
-<body>
-    <h3>hello</h3>
-</body>
+
+    <body ng-app="tracker">
+
+        <div class="main">
+            <ui-view></ui-view>
+        </div>
+        
+        <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
+        <script src="{% static 'node_modules/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+
+        <script src="{% static 'app/app.js' %}"></script>
+
+        {% if user.is_authenticated %}
+            <script src="{% static 'app/auth/routes.js' %}"></script>
+            <script src="{% static 'app/auth/controllers.js' %}"></script>
+            <script src="{% static 'app/auth/services.js' %}"></script>
+        {% else %}
+            <script src="{% static 'app/routes.js' %}"></script>
+            <script src="{% static 'app/controllers.js' %}"></script>
+        {% endif %}
+
+    </body>
+    
 </html>
