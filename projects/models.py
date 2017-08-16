@@ -21,7 +21,7 @@ class Project(models.Model):
         return '{}-{}'.format(self.name, self.owner)
 
 
-class ProjectMember(models.Model):
+class Member(models.Model):
     project = models.ForeignKey('Project')
     worker = models.ForeignKey(settings.AUTH_USER_MODEL)
     date_created = models.DateField(auto_now_add=True)
@@ -31,3 +31,14 @@ class ProjectMember(models.Model):
 
     class Meta:
         unique_together = ('project', 'worker')
+
+
+class Log(models.Model):
+    member = models.ForeignKey('Member')
+    worker = models.ForeignKey(settings.AUTH_USER_MODEL)
+    description = models.TextField(null=True, blank=True)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return '{}-{}'.format(self.member.project.name, self.worker)
