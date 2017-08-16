@@ -37,9 +37,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     DEVELOPER = "developer"
     DESIGNER = "designer"
+    MANAGEMENT = "management"
     POSITION = (
         (DEVELOPER, "Developer"),
-        (DESIGNER, "DESIGNER")
+        (DESIGNER, "Designer"),
+        (MANAGEMENT, "Management")
     )
 
     email = models.EmailField(max_length=200, unique=True)
