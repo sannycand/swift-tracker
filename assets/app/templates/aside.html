@@ -49,7 +49,7 @@
             <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg.non_field_errors[0] }}</span>
 
             <div class="form-group">
-                <span class="text-danger" ng-show="loginForm.email.$dirty && signupForm.email.$error.pattern">Not a valid email format</span>
+                <span class="text-danger" ng-show="loginForm.email.$dirty && loginForm.email.$error.pattern">Not a valid email format</span>
                 <input type="email" name="email" 
                     ng-model="form.email" 
                     class="form-control" 

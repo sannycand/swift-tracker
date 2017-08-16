@@ -4,7 +4,7 @@
   angular
     .module('tracker')
     .controller('DashboardController', DashboardController)
-    .controller('AuhtAsideController', AuhtAsideController)
+    .controller('AuthAsideController', AuthAsideController)
   ;
 
   function DashboardController ($scope) {
@@ -12,7 +12,7 @@
   
   };
 
-  function AuhtAsideController ($scope) {
+  function AuthAsideController ($scope) {
     console.log('auth AuhtAsideController')
   }
 

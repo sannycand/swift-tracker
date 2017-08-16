@@ -17,8 +17,8 @@
     <body ng-app="tracker">
         <div class="app">
         {% if user.is_authenticated %}
-            <div class="app-aside" ng-include ng-controller="AuhtAsideController as ctrl"
-                    src="'/static/app/templates/auth/aside.html'">
+            <div class="app-aside" ng-include ng-controller="AuthAsideController as ctrl"
+                src="'/static/app/templates/auth/aside.html'">
             </div>
         {% else %}
             <div class="app-aside" ng-include ng-controller="AsideController as ctrl"
