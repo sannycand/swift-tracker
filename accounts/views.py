@@ -5,7 +5,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .serializers import SignupSerializer, LoginSerializer
+from .serializers import SignupSerializer, LoginSerializer, UserSerializer
 from .models import User
 
 
@@ -31,3 +31,9 @@ class UserAPI(viewsets.ViewSet):
     def logout(self, *args, **kwargs):
         logout(self.request)
         return Response(status=204)
+
+
+class AuthUserAPI(viewsets.ViewSet):
+
+    def user(self, *args, **kwargs):
+        return Response(UserSerializer(self.request.user).data, status=200)

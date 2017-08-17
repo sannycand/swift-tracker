@@ -59,3 +59,11 @@ class LoginSerializer(serializers.Serializer):
 
         return data
 
+
+class UserSerializer(serializers.ModelSerializer):
+    """ user serializer
+    """
+    class Meta:
+        model = User
+        fields = "__all__"
+
