@@ -1,8 +1,9 @@
 (function () {
   'use strict';
-  
+
   angular.module('tracker', [
     'ui.router',
+    'ui.bootstrap'
     ])
     .constant('TEMPLATE_URL', '/static/app/templates/')
     .config(csrf)

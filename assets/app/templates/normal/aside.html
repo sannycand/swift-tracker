@@ -1,3 +1,30 @@
 <aside class="aside-nav">
-    <h2>Normal</h2>
+    <div class="sidenav-group">
+
+        <nav class="nav-wrapper is-main">
+
+        </nav>
+
+        <nav class="nav-wrapper is-bottom">
+            <div class="sidenav-collapse" id="nav-collapse">
+                <div class="sidenav-header">
+                    <button class="btn-toggle" ng-click="ctrl.toggle()">
+                    <span class="inner-content profile-photo">
+                        <div>
+                            <img src="{{ ctrl.user.profile_photo }}">
+                        </div>
+                    </span>
+                    <span class="inner-content label">{{ ctrl.user.email }}</span>
+                    <span class="inner-content arrow icon ion-chevron-down"></span>
+                    </button>
+                </div>
+                <div class="sidenav-body">
+                    <ul>
+                        <li><a href="" ng-click="">account settings</a></li>
+                        <li><a href="" ng-click="ctrl.logout()">logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
 </aside>
