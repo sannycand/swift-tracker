@@ -17,12 +17,18 @@
     <body ng-app="tracker">
         <div class="app">
         {% if user.is_authenticated %}
-            <div class="app-aside" ng-include ng-controller="AuthAsideController as ctrl"
-                src="'/static/app/templates/auth/aside.html'">
+            {% if user.is_admin %} 
+            <div class="app-aside" ng-include ng-controller="AsideController as ctrl"
+                src="'/static/app/templates/admin/aside.html'">
             </div>
+            {% else %}
+            <div class="app-aside" ng-include ng-controller="AsideController as ctrl"
+                src="'/static/app/templates/normal/aside.html'">
+            </div>
+            {% endif %}
         {% else %}
             <div class="app-aside" ng-include ng-controller="AsideController as ctrl"
-                    src="'/static/app/templates/aside.html'">
+                src="'/static/app/templates/aside.html'">
             </div>
         {% endif%}
 
@@ -31,16 +37,19 @@
             </div>
         </div>
 
-
-        
         <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
         <script src="{% static 'node_modules/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
 
         <script src="{% static 'app/app.js' %}"></script>
 
         {% if user.is_authenticated %}
-            <script src="{% static 'app/auth/routes.js' %}"></script>
-            <script src="{% static 'app/auth/controllers.js' %}"></script>
+            {% if user.is_admin %} 
+                <script src="{% static 'app/auth/admin/routes.js' %}"></script>
+                <script src="{% static 'app/auth/admin/controllers.js' %}"></script>
+            {% else%}
+                <script src="{% static 'app/auth/normal/routes.js' %}"></script>
+                <script src="{% static 'app/auth/normal/controllers.js' %}"></script>
+            {% endif %}
             <script src="{% static 'app/auth/services.js' %}"></script>
         {% else %}
             <script src="{% static 'app/routes.js' %}"></script>

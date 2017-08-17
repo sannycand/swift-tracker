@@ -4,7 +4,7 @@
   angular
     .module('tracker')
     .controller('DashboardController', DashboardController)
-    .controller('AuthAsideController', AuthAsideController)
+    .controller('AsideController', AsideController)
   ;
 
   function DashboardController ($scope) {
@@ -12,8 +12,8 @@
   
   };
 
-  function AuthAsideController ($scope) {
-    console.log('auth AuhtAsideController')
+  function AsideController ($scope) {
+    console.log('auth NormalAsideController')
   }
 
 

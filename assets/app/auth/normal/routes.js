@@ -20,7 +20,7 @@
       })
       .state('dashboard', {
         url          : '/',
-        templateUrl  : TEMPLATE_URL + 'auth/dashboard.html',
+        templateUrl  : TEMPLATE_URL + 'normal/dashboard.html',
         controller   : 'DashboardController',
         controllerAs : 'ctrl'
       })
