@@ -105,3 +105,81 @@
         flex-direction: column;
     }
 }
+
+
+.main-wrapper {
+    padding: 10px 50px;
+    .header-wrapper {
+        min-height: 40px;
+        margin-bottom: 80px;
+    }
+    .projects-content {
+        .group {
+            .item {
+                text-decoration: none;
+                display: block;
+                color: #222425;
+                border-bottom: 2px solid rgba(193,201,209,.5);
+                &:first-child {
+                    border-top: 2px solid rgba(193,201,209,.5);
+                }
+                .item-info {
+                    display: flex;
+                    padding: 20px 22px;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+                    transition: background .10s ease-in,box-shadow .10s ease-in;
+                    .item-icon {
+                        flex-basis: 40px;
+                        max-width: 40px;
+                        display: flex;
+                        width: 40px;
+                        height: 40px;
+                        margin: 0 15px 0 0;
+                        align-items: center;
+                        justify-content: center;
+                        background: #c2c7cd;
+                        border-radius: 50%;
+                    }
+                    .project-title-wrapper {
+                        max-width: calc(100% - 50px);
+                        flex-basis: calc(100% - 50px);
+                        .project-title {
+                            h3 {
+                                margin: 0;
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+                &.is-open {
+                    .item-info {
+                        background: #ededed;
+                    }
+                    .item-content {
+                        display: block;
+                        background-color: #f5f5f5;
+                    }
+                }
+                .item-content {
+                    display: none;
+                    overflow: auto;
+                    .log-info {
+                        .table {
+                            tbody {
+                                tr {
+                                    width: 100%;
+                                    background: #fbfbfb;
+                                    &:hover {
+                                     background: #eee;   
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

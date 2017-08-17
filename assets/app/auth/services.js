@@ -10,9 +10,10 @@
 
 
     var service = {
-      logout : logout,
       user   : undefined,
       loaded : false,
+      logout : logout,
+      projectMember : projectMember
     };
 
     getCurrentUser();
@@ -30,6 +31,10 @@
 
     function logout() {
       return $http.get('/api/logout/');
+    };
+
+    function projectMember() {
+      return $http.get('api/projects/member/');
     };
   
   };

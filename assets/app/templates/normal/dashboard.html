@@ -1,3 +1,59 @@
 <div class="main-wrapper">
-    <h2>Normal Dashboard</h2>
+
+    <header class="header-wrapper">
+        <div class="page-title">
+            <h1>Projects</h1>
+        </div>
+    </header>
+
+    <div class="projects-content">
+        <div class="projects-list">
+            <div class="group">
+                <div class="item" id="collapse-{{ project.project.id }}" ng-repeat="project in ctrl.projects">
+                    <div class="item-info">
+                        <span class="item-icon icon ion-briefcase"></span>
+                        <div class="project-title-wrapper">
+                            <div class="project-title">
+                            <h3>{{ project.project.name }}</h3>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-date">Created: {{ project.project.date_created }}</span>
+                                <span class="divider">|</span>
+                                <span class="project-company">Company: {{ project.project.company.name }}</span>
+                            </div>
+                        </div>
+                        <a href="" class="btn-toggle" ng-click="ctrl.toggle(project.project.id)">
+                            <span class="inner-content arrow icon ion-chevron-down"></span>
+                        </a>
+                    </div>
+                    <div class="item-content">
+                        <div class="log-info">
+                            <table class="table table-hover table-bordred table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>Log Description</th>
+                                  <th>Hours</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th scope="row">1</th>
+                                  <td>asdasddasdda hours</td>
+                                  <td>2</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">2</th>
+                                  <td>asdasddasddasdaa hours</td>
+                                  <td>2</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

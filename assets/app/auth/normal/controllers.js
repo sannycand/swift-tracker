@@ -7,8 +7,21 @@
     .controller('AsideController', AsideController)
   ;
 
-  function DashboardController ($scope) {
+  function DashboardController ($scope, AuthService) {
     var self = this;
+
+    self.toggle = toggle;
+
+    // get current user projects
+    AuthService.projectMember().then(function(resp){
+      self.projects = resp.data;
+    });
+
+    // project toggle 
+    function toggle (id) {
+      var projectID = "collapse-" + id;
+      angular.element(document.getElementById(projectID)).toggleClass("is-open");
+    };
   
   };
 
@@ -24,7 +37,6 @@
     },function(isReady) {
       if(!isReady) {
         self.user = AuthService.user;
-        console.log(self.user, 'current')
       };
     });
 
