@@ -23,7 +23,7 @@ class Project(models.Model):
 
 class Member(models.Model):
     project = models.ForeignKey('Project')
-    worker = models.ForeignKey(settings.AUTH_USER_MODEL)
+    worker = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='member')
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -35,10 +35,9 @@ class Member(models.Model):
 
 class Log(models.Model):
     member = models.ForeignKey('Member')
-    worker = models.ForeignKey(settings.AUTH_USER_MODEL)
     description = models.TextField(null=True, blank=True)
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return '{}-{}'.format(self.member.project.name, self.worker)
+        return '{}-{}'.format(self.member.project.name, self.member.worker)
