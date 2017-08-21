@@ -3,10 +3,15 @@
 
   angular.module('tracker', [
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'xeditable',
+    'timer'
     ])
     .constant('TEMPLATE_URL', '/static/app/templates/')
     .config(csrf)
+    .run(function(editableOptions) {
+      editableOptions.theme = 'bs3';
+    });
   ;
 
   // CSRF TOKEN 

@@ -13,7 +13,10 @@
       user   : undefined,
       loaded : false,
       logout : logout,
-      projectMember : projectMember
+      projectMember : projectMember,
+      startLog : startLog,
+      stopLog : stopLog,
+      currentLog : currentLog
     };
 
     getCurrentUser();
@@ -35,6 +38,18 @@
 
     function projectMember() {
       return $http.get('api/projects/member/');
+    };
+
+    function startLog(project_id, form) {
+      return $http.post('api/projects/'+ project_id +'/log/', form);
+    };
+
+    function stopLog(form) {
+      return $http.put('api/projects/stop/log/', form);
+    }
+
+    function currentLog() {
+      return $http.get('api/projects/current/log/');
     };
   
   };

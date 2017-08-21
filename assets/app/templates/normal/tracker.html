@@ -1,0 +1,61 @@
+<div class="main-wrapper">
+
+    <header class="header-wrapper">
+        <div class="page-title">
+            <h1>Tracker</h1>
+        </div>
+    </header>
+
+    <div class="projects-content">
+        <div class="projects-list">
+            <div class="group">
+                <div class="item" id="collapse-{{ project.project.id }}" ng-repeat="project in ctrl.projects">
+                    <div class="item-info" ng-class="{'selected':project.project.id==ctrl.currentLog.project.id}">
+                        <div class="item-icon">
+                            <span class="icon ion-briefcase"></span>
+                        </div>
+                        <div class="project-title-wrapper">
+                            <div class="project-title">
+                            <h3>{{ project.project.name }}</h3>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-date" ng-show="ctrl.currentLog.project.id == project.project.id">
+                                    Working on:                              
+                                    <a href="" editable-text="description" onaftersave="ctrl.ready(project, description)" ng-model="description">
+                                        {{ description || "empty"  }}
+                                    </a>
+                                </span>
+
+                                <span class="project-date" ng-hide="ctrl.timerRunning">
+                                    Working on:                              
+                                    <a href="" editable-text="description" onaftersave="ctrl.ready(project, description)" ng-model="description">
+                                        {{ description || "empty"  }}
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="timer">
+                            <timer start-time="ctrl.currentLog.start_time" ng-if="ctrl.currentLog.project.id == project.id">
+                                {{hhours}}:{{mminutes}}:{{sseconds}}
+                            </timer>
+                        </div>
+                        
+                        <div class="btn-action">
+                            <a href="" ng-hide="ctrl.timerRunning" ng-disabled="!project.is_ready" class="btn btn-toggle" ng-click="ctrl.startLog(project.project.id, description)">
+                                <span class="inner-content arrow icon ion-play"></span>
+                            </a>
+
+                            <a href="" ng-show="ctrl.currentLog.project.id == project.id" ng-show="ctrl.timerRunning" class="btn btn-toggle" ng-click="ctrl.stopLog(ctrl.currentLog, description)">
+                                <span class="inner-content arrow icon ion-stop"></span>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

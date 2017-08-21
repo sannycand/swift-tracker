@@ -24,6 +24,12 @@
         controller   : 'DashboardController',
         controllerAs : 'ctrl'
       })
+      .state('tracker', {
+        url          : '/tracker/',
+        templateUrl  : TEMPLATE_URL + 'normal/tracker.html',
+        controller   : 'TrackerController',
+        controllerAs : 'ctrl',
+      })
     ;
 
   };

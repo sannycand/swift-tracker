@@ -4,13 +4,10 @@
         <nav class="nav-wrapper is-main">
         <ul>
             <li>
-                <a href="">Projects</a>
+                <a href="" ui-sref="dashboard" ng-class="{'selected':$state.current=='dashboard'}">Projects</a>
             </li>
             <li>
-                <a href="">My Activities</a>
-            </li>
-            <li>
-                <a href="">Tracker</a>
+                <a href="" ui-sref="tracker" ng-class="{'selected':$state.current=='tracker'}">Tracker</a>
             </li>
         </ul>
         </nav>
