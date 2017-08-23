@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.core.urlresolvers import reverse
@@ -19,6 +21,8 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, **kwargs):
 
         user = self.create_user(email, password, **kwargs)
+        user.position = 'management'
+        user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
         user.save()
@@ -71,4 +75,34 @@ class User(AbstractBaseUser, PermissionsMixin):
         )
 
     def get_short_name(self):
-        return self.first_name    
+        return self.first_name
+
+
+class Invitation(models.Model):
+    
+    DEVELOPER = "developer"
+    DESIGNER = "designer"
+    MANAGEMENT = "management"
+    POSITION = (
+        (DEVELOPER, "Developer"),
+        (DESIGNER, "Designer"),
+        (MANAGEMENT, "Management")
+    )
+
+    email = models.EmailField(max_length=225)
+    position = models.CharField(max_length=35, choices=POSITION, default=DEVELOPER)
+    key = models.CharField(max_length=32, null=True, blank=True)
+    is_used = models.BooleanField(default=False)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return '{}-{}'.format(self.email, self.position)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.key = self._generate_key()
+        return super(Invitation, self).save(*args, **kwargs)
+
+    def _generate_key(self):
+        return uuid4().hex
+
