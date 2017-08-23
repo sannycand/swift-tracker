@@ -35,20 +35,21 @@
                             </div>
                         </div>
 
-                        <div class="timer">
-                            <timer start-time="ctrl.currentLog.start_time" ng-if="ctrl.currentLog.project.id == project.id">
+                        <div class="timer" ng-show="ctrl.currentLog.project.id == project.project.id">
+                            <timer start-time="ctrl.currentLog.start_time" ng-show="ctrl.timerRunning">
                                 {{hhours}}:{{mminutes}}:{{sseconds}}
                             </timer>
                         </div>
                         
                         <div class="btn-action">
-                            <a href="" ng-hide="ctrl.timerRunning" ng-disabled="!project.is_ready" class="btn btn-toggle" ng-click="ctrl.startLog(project.project.id, description)">
+                            <a href="" ng-show="!ctrl.timerRunning" ng-disabled="!project.is_ready" class="btn btn-toggle" ng-click="ctrl.startLog(project.project.id, description)">
                                 <span class="inner-content arrow icon ion-play"></span>
                             </a>
-
-                            <a href="" ng-show="ctrl.currentLog.project.id == project.id" ng-show="ctrl.timerRunning" class="btn btn-toggle" ng-click="ctrl.stopLog(ctrl.currentLog, description)">
-                                <span class="inner-content arrow icon ion-stop"></span>
-                            </a>
+                            <div ng-show="ctrl.currentLog.project.id == project.project.id">
+                                <a href="" ng-show="ctrl.timerRunning" class="btn btn-toggle" ng-click="ctrl.stopLog(ctrl.currentLog, description)">
+                                    <span class="inner-content arrow icon ion-stop"></span>
+                                </a>
+                            </div>
                         </div>
                         
                     </div>
