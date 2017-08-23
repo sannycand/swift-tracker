@@ -23,7 +23,7 @@ class Project(models.Model):
 
 class Member(models.Model):
     project = models.ForeignKey('Project')
-    worker = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='member')
+    worker = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='worker')
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
