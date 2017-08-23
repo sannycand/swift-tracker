@@ -16,7 +16,8 @@
       projectMember : projectMember,
       startLog : startLog,
       stopLog : stopLog,
-      currentLog : currentLog
+      currentLog : currentLog,
+      userInvite : userInvite
     };
 
     getCurrentUser();
@@ -51,6 +52,10 @@
     function currentLog() {
       return $http.get('api/projects/current/log/');
     };
+
+    function userInvite(form) {
+      return $http.post('api/user/invite/', form);
+    }
   
   };
 

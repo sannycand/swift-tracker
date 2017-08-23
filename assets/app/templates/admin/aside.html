@@ -1,11 +1,17 @@
 <aside class="aside-nav">
     <div class="sidenav-group">
-
+        <a href="" ng-click="ctrl.inviteBtn()">
+            <span class="icon ion-person-add">Invite User</span>
+        </a>
         <nav class="nav-wrapper is-main">
-
+            <ul>
+                <li>
+                    <a href="" ui-sref="projects">Projects</a>
+                </li>
+            </ul>
         </nav>
 
-        <nav class="nav-wrapper is-bottom">
+        <div class="nav-wrapper is-bottom">
             <div class="sidenav-collapse" id="nav-collapse">
                 <div class="sidenav-header">
                     <button class="btn-toggle" ng-click="ctrl.toggle()">
@@ -20,11 +26,44 @@
                 </div>
                 <div class="sidenav-body">
                     <ul>
-                        <li><a href="" ng-click="">account settings</a></li>
-                        <li><a href="" ng-click="ctrl.logout()">logout</a></li>
+                        <li><a href="" ui-sref="teams">Team settings</a></li>
+                        <li><a href="" ng-click="ctrl.logout()">Logout</a></li>
                     </ul>
                 </div>
             </div>
-        </nav>
+        </div>
     </div>
 </aside>
+
+<!-- modal templates -->
+<script type="text/ng-template" id="invite.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Invite User</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
+        <form name="invitationForm" novalidate>
+            <div class="form-group">
+                <span class="text-danger" ng-show="invitationForm.email.$dirty && invitationForm.email.$error.pattern">Not a valid email format</span>
+                <input type="email" name="email" 
+                    ng-model="form.email" 
+                    class="form-control" 
+                    placeholder="Email" 
+                    ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" 
+                    required>
+            </div>
+            <div class="form-group">
+                <select name="position" ng-model="form.position" class="form-control" required>
+                    <option ng-selected="selected" value="">Select Position</option>
+                    <option value="developer">Developer</option>
+                    <option value="designer">Designer</option>
+                    <option value="management">Management</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-primary" ng-disabled="invitationForm.$invalid || ctrl.loading" type="button" ng-click="ctrl.save(form)">Save</button>
+            <button class="btn btn-warning" ng-disabled="ctrl.loading" type="button" ng-click="ctrl.cancel()">Cancel</button>
+        </form>
+    </div>
+
+</script>

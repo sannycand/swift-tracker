@@ -5,7 +5,8 @@
     'ui.router',
     'ui.bootstrap',
     'xeditable',
-    'timer'
+    'timer',
+    'moment-picker'
     ])
     .constant('TEMPLATE_URL', '/static/app/templates/')
     .config(csrf)

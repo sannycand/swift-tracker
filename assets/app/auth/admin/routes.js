@@ -18,10 +18,10 @@
         url      : '',
         template : '<ui-view></ui-view>'
       })
-      .state('dashboard', {
+      .state('projects', {
         url          : '/',
-        templateUrl  : TEMPLATE_URL + 'admin/dashboard.html',
-        controller   : 'DashboardController',
+        templateUrl  : TEMPLATE_URL + 'admin/project.html',
+        controller   : 'ProjectController',
         controllerAs : 'ctrl'
       })
     ;
