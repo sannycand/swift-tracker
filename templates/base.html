@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/ionicons.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'node_modules/angular-xeditable/dist/css/xeditable.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/angular-moment-picker/dist/angular-moment-picker.min.css' %}">
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/css/style.css' %}">
  
@@ -30,10 +31,6 @@
                 src="'/static/app/templates/normal/aside.html'">
             </div>
             {% endif %}
-        {% else %}
-            <div class="app-aside" ng-include ng-controller="AsideController as ctrl"
-                src="'/static/app/templates/aside.html'">
-            </div>
         {% endif%}
 
             <div class="app-main">
@@ -51,6 +48,7 @@
         <script src="{% static 'node_modules/angular-timer/dist/assets/js/angular-timer-bower.js' %}"></script>
         <script src="{% static 'node_modules/angular-timer/dist/assets/js/angular-timer-all.min.js' %}"></script>
         <script src="{% static 'node_modules/underscore/underscore-min.js' %}"></script>
+        <script src="{% static 'node_modules/angular-moment-picker/dist/angular-moment-picker.min.js' %}"></script>
 
         <script src="{% static 'app/app.js' %}"></script>
 

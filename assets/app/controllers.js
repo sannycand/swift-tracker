@@ -4,33 +4,33 @@
   angular
     .module('tracker')
     .controller('IndexController', IndexController)
-    .controller('AsideController', AsideController)
+    .controller('SignupController', SignupController)
   ;
 
-  function IndexController ($scope) {
+  function SignupController ($scope, $state, $stateParams, UserService) {
     var self = this;
-  
-  };
 
-  function AsideController ($scope, $state, UserService) {
+    self.signUp = signUp;
+
+    // signup form
+    function signUp (form) {
+      form['key'] = $stateParams.invitationKey;
+
+      UserService.signup(form).then(function(resp) {
+        $state.go('index');
+      }).catch(function(error) {
+        self.error_msg = error.data.non_field_errors;
+      });
+    };
+  }
+
+  function IndexController ($scope, $state, UserService) {
     var self = this;
 
     self.currentView = 'login';
     
-    self.signUp = signUp;
     self.login = login;
     self.actionView = actionView;
-
-
-    // signup form
-    function signUp (form) {
-      UserService.signup(form).then(function(resp) {
-        self.error_msg = '';
-        self.form = {}; // reset form
-      }).catch(function(error) {
-        self.error_msg = error.data;
-      });
-    };
 
     // login form
     function login (form) {

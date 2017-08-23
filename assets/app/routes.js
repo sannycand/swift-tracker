@@ -24,6 +24,14 @@
         controller   : 'IndexController',
         controllerAs : 'ctrl'
       })
+      .state('signup', {
+        url          : '/signup-:invitationKey/',
+        templateUrl  : TEMPLATE_URL + 'signup.html',
+        controller   : 'SignupController',
+        controllerAs : 'ctrl'
+      })
+
+
     ;
 
   };
