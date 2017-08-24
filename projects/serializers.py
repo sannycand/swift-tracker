@@ -3,6 +3,8 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from accounts.serializers import UserSerializer
+from accounts.models import User
+
 from .models import Project, Member, Company, Log
 
 
@@ -12,23 +14,41 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = "__all__"
 
+class AddMemberSerializer(serializers.ModelSerializer):
+    worker_data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Member
+        fields = "__all__"
+
+    def get_worker_data(self, obj):
+        worker = User.objects.get(id=obj.worker.id)
+        return UserSerializer(worker).data
 
 class ProjectSerializer(serializers.ModelSerializer):
     company = CompanySerializer()
+    owner =  UserSerializer()
+    members = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
         fields = "__all__"
 
-            
+    def get_members(self, obj):
+        members_id = Member.objects.filter(project=obj).values_list('worker_id', flat=True)
+        users = User.objects.filter(id__in=members_id)
+        return UserSerializer(users, many=True).data
+
+
 class MemberSerializer(serializers.ModelSerializer):
+    worker = UserSerializer()
     project = ProjectSerializer()
 
     class Meta:
         model = Member
         fields = "__all__"
 
-
+            
 class LogSerializer(serializers.ModelSerializer):
     project = serializers.SerializerMethodField()
 
