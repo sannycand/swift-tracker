@@ -1,16 +1,19 @@
-<aside class="aside-nav">
+<div class="aside-nav">
     <div class="sidenav-group">
-        <a href="" ng-click="ctrl.inviteBtn()">
-            <span class="icon ion-person-add">Invite User</span>
-        </a>
-        <nav class="nav-wrapper is-main">
+        <div class="invite-user">
+            <a href="" class="invite-btn" ng-click="ctrl.inviteUser()">
+                <span class="icon ion-person-add"></span>
+                Invite User
+            </a>
+        </div>
+        <hr>
+        <div class="nav-wrapper is-main">
             <ul>
-                <li>
+                <li class="active">
                     <a href="" ui-sref="projects">Projects</a>
                 </li>
             </ul>
-        </nav>
-
+        </div>
         <div class="nav-wrapper is-bottom">
             <div class="sidenav-collapse" id="nav-collapse">
                 <div class="sidenav-header">
@@ -26,34 +29,44 @@
                 </div>
                 <div class="sidenav-body">
                     <ul>
-                        <li><a href="" ui-sref="teams">Team settings</a></li>
+                        <li><a href="" ui-sref="teams">Account Settings</a></li>
                         <li><a href="" ng-click="ctrl.logout()">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</aside>
+</div>
 
 <!-- modal templates -->
 <script type="text/ng-template" id="invite.html">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Invite User</h3>
+        <button type="button" class="close" ng-disabled="ctrl.loading" ng-click="ctrl.cancel()">&times;</button>
+        <h3 class="modal-title text-center" id="modal-title">Invite New User</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
         <form name="invitationForm" novalidate>
             <div class="form-group">
-                <span class="text-danger" ng-show="invitationForm.email.$dirty && invitationForm.email.$error.pattern">Not a valid email format</span>
                 <input type="email" name="email" 
                     ng-model="form.email" 
-                    class="form-control" 
+                    class="form-control input-lg" 
                     placeholder="Email" 
                     ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" 
-                    required>
+                    ng-class="{'input-error': invitationForm.email.$dirty && invitationForm.email.$error.pattern || ctrl.error_msg}"
+                    ng-change="ctrl.change()"
+                    id="email" 
+                    required
+                    >
+                <span class="text-danger" ng-show="ctrl.error_msg">
+                    {{ ctrl.error_msg }}
+                </span>
+                <span class="text-danger" 
+                    ng-show="invitationForm.email.$dirty && invitationForm.email.$error.pattern">
+                    Not a valid email format
+                </span>
             </div>
             <div class="form-group">
-                <select name="position" ng-model="form.position" class="form-control" required>
+                <select name="position" ng-model="form.position" class="form-control input-lg" required>
                     <option ng-selected="selected" value="">Select Position</option>
                     <option value="developer">Developer</option>
                     <option value="designer">Designer</option>
@@ -61,8 +74,7 @@
                 </select>
             </div>
             
-            <button class="btn btn-primary" ng-disabled="invitationForm.$invalid || ctrl.loading" type="button" ng-click="ctrl.save(form)">Save</button>
-            <button class="btn btn-warning" ng-disabled="ctrl.loading" type="button" ng-click="ctrl.cancel()">Cancel</button>
+            <button class="btn btn-lg btn-primary btn-full-width" ng-disabled="invitationForm.$invalid || ctrl.loading" type="button" ng-click="ctrl.save(form)">Save</button>
         </form>
     </div>
 

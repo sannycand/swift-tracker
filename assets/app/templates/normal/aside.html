@@ -1,18 +1,18 @@
-<aside class="aside-nav">
+<div class="aside-nav">
     <div class="sidenav-group">
 
-        <nav class="nav-wrapper is-main">
+        <div class="nav-wrapper is-main">
         <ul>
-            <li>
+            <li class="active">
                 <a href="" ui-sref="dashboard" ng-class="{'selected':$state.current=='dashboard'}">Projects</a>
             </li>
             <li>
                 <a href="" ui-sref="tracker" ng-class="{'selected':$state.current=='tracker'}">Tracker</a>
             </li>
         </ul>
-        </nav>
+        </div>
 
-        <nav class="nav-wrapper is-bottom">
+        <div class="nav-wrapper is-bottom">
             <div class="sidenav-collapse" id="nav-collapse">
                 <div class="sidenav-header">
                     <button class="btn-toggle" ng-click="ctrl.toggle()">
@@ -32,6 +32,6 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </div>
     </div>
-</aside>
+</div>
