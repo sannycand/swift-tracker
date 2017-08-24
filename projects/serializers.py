@@ -16,22 +16,34 @@ class AddMemberSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_worker_data(self, obj):
-        worker = User.objects.get(id=obj.worker.id)
-        return UserSerializer(worker).data
+        return UserSerializer(obj.worker).data
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    owner =  UserSerializer()
+    owner_data = serializers.SerializerMethodField()
     members = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
         fields = "__all__"
 
+    def get_owner_data(self, obj):
+        return UserSerializer(obj.owner).data
+
     def get_members(self, obj):
         members_id = Member.objects.filter(project=obj).values_list('worker_id', flat=True)
         users = User.objects.filter(id__in=members_id)
         return UserSerializer(users, many=True).data
+
+    def validate(self, data):
+        project = Project.objects.filter(name__iexact=data.get('name'))
+        if project.exists():
+            raise serializers.ValidationError("Project name already exist!")
+        
+        return data
+
+    def create(self, validated_data):
+        return Project.objects.create(**validated_data)
 
 
 class MemberSerializer(serializers.ModelSerializer):

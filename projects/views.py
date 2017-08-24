@@ -10,7 +10,8 @@ from .serializers import (
                 MemberSerializer,
                 LogSerializer, 
                 ProjectSerializer,  
-                AddMemberSerializer)
+                AddMemberSerializer                
+                )
 from .models import Member, Log, Project
 
 
@@ -56,20 +57,18 @@ class LogAPI(viewsets.ViewSet):
 
 class ProjectAPI(viewsets.ViewSet):
     
-    def projects(self, *args, **kwargs):
-        if self.request.user.is_admin:
-            return Response(ProjectSerializer(Project.objects.all(), many=True).data, status=200)
-        return Response(status=403)
+    def projects(self, *args, **kwargs):        
+        return Response(ProjectSerializer(
+            Project.objects.all(), many=True).data, status=200)
 
     def users(self, *args, **kwargs):
-        if self.request.user.is_admin:
-            users = User.objects.exclude(id=self.request.user.id)
-            project = get_object_or_404(Project, id=kwargs['project_id'])
-            users_id = Member.objects.filter(project=project).values_list('worker_id', flat=True)
-            
-            return Response(UserSerializer(users.exclude(id__in=users_id), many=True).data, status=200)
-        return Response(status=403)
-
+        
+        users = User.objects.exclude(id=self.request.user.id)
+        project = get_object_or_404(Project, id=kwargs['project_id'])
+        users_id = Member.objects.filter(project=project).values_list('worker_id', flat=True)
+        
+        return Response(UserSerializer(users.exclude(id__in=users_id), many=True).data, status=200)
+        
     def add_member(self, *args, **kwargs):
         serializer = AddMemberSerializer(data=self.request.data)
         if serializer.is_valid():
@@ -77,3 +76,15 @@ class ProjectAPI(viewsets.ViewSet):
 
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+
+    def add_project(self, *args, **kwargs):
+        data = self.request.data
+        data['owner'] = self.request.user.id
+
+        serializer = ProjectSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
