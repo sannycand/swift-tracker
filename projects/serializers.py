@@ -5,14 +5,8 @@ from rest_framework import serializers
 from accounts.serializers import UserSerializer
 from accounts.models import User
 
-from .models import Project, Member, Company, Log
+from .models import Project, Member, Log
 
-
-class CompanySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Company
-        fields = "__all__"
 
 class AddMemberSerializer(serializers.ModelSerializer):
     worker_data = serializers.SerializerMethodField()
@@ -25,8 +19,8 @@ class AddMemberSerializer(serializers.ModelSerializer):
         worker = User.objects.get(id=obj.worker.id)
         return UserSerializer(worker).data
 
+
 class ProjectSerializer(serializers.ModelSerializer):
-    company = CompanySerializer()
     owner =  UserSerializer()
     members = serializers.SerializerMethodField()
 
