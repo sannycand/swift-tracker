@@ -3,6 +3,9 @@
     <header class="header-wrapper">
         <div class="page-title">
             <h1>Projects</h1>
+            <a href="" ng-click="ctrl.addProject()">
+                <span class="icon ion-briefcase">Create New Project</span>
+            </a>
         </div>
     </header>
 
@@ -19,7 +22,7 @@
                             <div class="project-info">
                                 <span class="project-date">Created: {{ project.date_created }}</span>
                                 <span class="divider">|</span>
-                                <span class="project-company">Owner: {{ project.owner.first_name }}  {{ project.owner.last_name }}</span>
+                                <span class="project-company">Owner: {{ project.owner_data.first_name }}  {{ project.owner_data.last_name }}</span>
                             </div>
                         </div>
                         <div>
@@ -80,5 +83,19 @@
             <button class="btn btn-warning"  type="button" ng-click="ctrl.cancel()">Cancel</button>
         </form>
     </div>
+</script>
 
+<!-- modal templates -->
+<script type="text/ng-template" id="addProject.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Create New Project</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
+        <form name="addProjectForm" novalidate>
+          <input type="text" name="name" ng-model="form.name">
+          <button class="btn btn-primary"  type="button" ng-click="ctrl.save(form)">Save</button>
+          <button class="btn btn-warning"  type="button" ng-click="ctrl.cancel()">Cancel</button>
+        </form>
+    </div>
 </script>

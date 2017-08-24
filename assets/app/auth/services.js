@@ -20,7 +20,8 @@
       projects      : [],
       projectMember : projectMember,
       users         : users,
-      addProjectMember: addProjectMember
+      addProjectMember: addProjectMember,
+      addProject : addProject
     };
 
     getCurrentUser();
@@ -53,6 +54,10 @@
 
     function addProjectMember(form) {
       return $http.post('api/projects/add/member/', form);
+    }
+
+    function addProject(form) {
+      return $http.post('api/projects/add/', form);
     }
 
     function projectMember() {

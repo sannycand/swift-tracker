@@ -13,6 +13,7 @@
     self.AuthService = AuthService;
     self.toggle = toggle;
     self.addMember = addMember;
+    self.addProject = addProject;
 
     // project toggle 
     function toggle (id) {
@@ -53,6 +54,34 @@
               }).catch(function(error) {
                 self.error_msg = error.data
               });
+            });
+          };
+
+          self.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+          };
+        }
+
+      });
+    };
+
+    function addProject (project) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'addProject.html',
+        size: 'md',
+        controllerAs: 'ctrl',
+        controller: function($uibModalInstance, AuthService) {
+          self = this;
+
+          self.save = function (form) {
+            AuthService.addProject(form).then(function(resp){
+              AuthService.projects.push(resp.data);
+              $uibModalInstance.close();
+            }).catch(function(error) {
+              self.error_msg = error.data.non_field_errors[0]
             });
           };
 
