@@ -19,7 +19,7 @@
       form['key'] = $stateParams.invitationKey;
 
       UserService.signup(form).then(function(resp) {
-        $state.go('index');
+        $state.go('login');
       }).catch(function(error) {
         self.error_msg = error.data;
       });
