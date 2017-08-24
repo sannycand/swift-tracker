@@ -1,0 +1,84 @@
+<div class="main-wrapper">
+
+    <header class="header-wrapper">
+        <div class="page-title">
+            <h1>Projects</h1>
+        </div>
+    </header>
+
+    <div class="projects-content">
+        <div class="projects-list">
+            <div class="group">
+                <div class="item" id="collapse-{{ project.id }}" ng-repeat="project in ctrl.AuthService.projects">
+                    <div class="item-info">
+                        <span class="item-icon icon ion-briefcase"></span>
+                        <div class="project-title-wrapper">
+                            <div class="project-title">
+                            <h3>{{ project.name }}</h3>
+                            </div>
+                            <div class="project-info">
+                                <span class="project-date">Created: {{ project.date_created }}</span>
+                                <span class="divider">|</span>
+                                <span class="project-company">Owner: {{ project.owner.first_name }}  {{ project.owner.last_name }}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="" ng-click="ctrl.addMember(project)">
+                              <span class="icon ion-person-add">Add Member</span>
+                            </a>
+                        </div>
+
+                        <div>
+                            <a href="" class="btn-toggle" ng-click="ctrl.toggle(project.id)">
+                              <span class="inner-content arrow icon ion-chevron-down"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-content">
+                        <div class="log-info">
+                            <table class="table table-hover table-bordred table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Member</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="member in project.members">
+                                  <td>
+                                    <span class="profile-photo">
+                                      <img src="{{ member.profile_photo }}">
+                                    </span>
+                                    <span>{{ member.email }}</span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- modal templates -->
+<script type="text/ng-template" id="addMember.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Add Member</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
+        <form name="addMemberForm" novalidate>
+
+            <multiple-autocomplete ng-model="form.users"
+                 object-property="email"
+                 suggestions-arr="ctrl.users">
+            </multiple-autocomplete>
+            
+            <button class="btn btn-primary"  type="button" ng-click="ctrl.save(form)">Save</button>
+            <button class="btn btn-warning"  type="button" ng-click="ctrl.cancel()">Cancel</button>
+        </form>
+    </div>
+
+</script>

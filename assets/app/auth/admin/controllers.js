@@ -7,10 +7,63 @@
     .controller('AsideController', AsideController)
   ;
 
-  function ProjectController ($scope, AuthService) {
+  function ProjectController ($scope, $uibModal, AuthService) {
     var self = this;
 
     self.AuthService = AuthService;
+    self.toggle = toggle;
+    self.addMember = addMember;
+
+    // project toggle 
+    function toggle (id) {
+      var projectID = "collapse-" + id;
+      angular.element(document.getElementById(projectID)).toggleClass("is-open");
+    };
+
+    function addMember (project) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'addMember.html',
+        size: 'md',
+        controllerAs: 'ctrl',
+        controller: function($uibModalInstance, $rootScope, AuthService) {
+          self = this;
+
+          // get project none members
+          AuthService.users(project.id).then(function(resp){
+            self.users = resp.data;
+          });
+
+          // find project index
+          var index =  _.findIndex(AuthService.projects, project)
+
+          self.save = function (data) {
+            _.each(data.users, function(user, i){
+              
+              var form = {
+                "worker": user.id,
+                "project": project.id
+              }
+
+              AuthService.addProjectMember(form).then(function(resp){
+                AuthService.projects[index].members.push(resp.data.worker_data)
+                $uibModalInstance.close();
+              }).catch(function(error) {
+                self.error_msg = error.data
+              });
+            });
+          };
+
+          self.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+          };
+        }
+
+      });
+    };
+
   };
 
   function AsideController ($scope, $uibModal, AuthService) {

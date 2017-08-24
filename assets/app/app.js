@@ -6,7 +6,8 @@
     'ui.bootstrap',
     'xeditable',
     'timer',
-    'moment-picker'
+    'moment-picker',
+    'multipleSelect'
     ])
     .constant('TEMPLATE_URL', '/static/app/templates/')
     .config(csrf)

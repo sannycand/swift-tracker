@@ -10,17 +10,21 @@
 
 
     var service = {
-      user   : undefined,
-      loaded : false,
-      logout : logout,
+      user          : undefined,
+      loaded        : false,
+      logout        : logout,
+      startLog      : startLog,
+      stopLog       : stopLog,
+      currentLog    : currentLog,
+      userInvite    : userInvite,
+      projects      : [],
       projectMember : projectMember,
-      startLog : startLog,
-      stopLog : stopLog,
-      currentLog : currentLog,
-      userInvite : userInvite
+      users         : users,
+      addProjectMember: addProjectMember
     };
 
     getCurrentUser();
+    getProjects();
 
     return service;
 
@@ -36,6 +40,20 @@
     function logout() {
       return $http.get('/api/logout/');
     };
+
+    function getProjects() {
+      return $http.get('api/projects/').then(function(resp){
+        service.projects = resp.data;
+      });
+    }
+
+    function users(project_id) {
+      return $http.get('api/projects/'+ project_id +'/users/');
+    }
+
+    function addProjectMember(form) {
+      return $http.post('api/projects/add/member/', form);
+    }
 
     function projectMember() {
       return $http.get('api/projects/member/');
