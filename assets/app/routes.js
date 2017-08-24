@@ -18,10 +18,10 @@
         url      : '',
         template : '<ui-view></ui-view>'
       })
-      .state('index', {
+      .state('login', {
         url          : '/',
-        templateUrl  : TEMPLATE_URL + 'index.html',
-        controller   : 'IndexController',
+        templateUrl  : TEMPLATE_URL + 'login.html',
+        controller   : 'LoginController',
         controllerAs : 'ctrl'
       })
       .state('signup', {

@@ -1,13 +1,15 @@
 <div class="main-wrapper">
 
-    <header class="header-wrapper">
-        <div class="page-title">
-            <h1>Projects</h1>
-            <a href="" ng-click="ctrl.addProject()">
-                <span class="icon ion-briefcase">Create New Project</span>
+    <div class="header-wrapper">
+        <div class="header-content">
+          <span class="page-title"><h1>Projects</h1></span>
+          <span class="button">
+            <a href="" ng-click="ctrl.addProject()" class="btn btn-primary">
+              Create New Project
             </a>
+          </span>
         </div>
-    </header>
+    </div>
 
     <div class="projects-content">
         <div class="projects-list">
@@ -25,9 +27,9 @@
                                 <span class="project-company">Owner: {{ project.owner_data.first_name }}  {{ project.owner_data.last_name }}</span>
                             </div>
                         </div>
-                        <div>
+                        <div class="action-button">
                             <a href="" ng-click="ctrl.addMember(project)">
-                              <span class="icon ion-person-add">Add Member</span>
+                              <span class="icon ion-person-add"></span>
                             </a>
                         </div>
 
@@ -68,19 +70,17 @@
 <!-- modal templates -->
 <script type="text/ng-template" id="addMember.html">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Add Member</h3>
+        <button type="button" class="close" ng-click="ctrl.cancel()">&times;</button>
+        <h3 class="modal-title text-center" id="modal-title">Add New Member</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
-        <form name="addMemberForm" novalidate>
-
-            <multiple-autocomplete ng-model="form.users"
-                 object-property="email"
-                 suggestions-arr="ctrl.users">
-            </multiple-autocomplete>
-            
-            <button class="btn btn-primary"  type="button" ng-click="ctrl.save(form)">Save</button>
-            <button class="btn btn-warning"  type="button" ng-click="ctrl.cancel()">Cancel</button>
+        <form name="addMemberForm" class="member-form" novalidate>
+          
+          <multiple-autocomplete ng-model="users" object-property="email" 
+              suggestions-arr="ctrl.users">
+          </multiple-autocomplete>
+          
+          <button class="btn btn-lg btn-primary btn-full-width" ng-disabled="users.length == 0" ng-click="ctrl.save(users)">Add Member</button>
         </form>
     </div>
 </script>
@@ -88,14 +88,16 @@
 <!-- modal templates -->
 <script type="text/ng-template" id="addProject.html">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Create New Project</h3>
+        <button type="button" class="close" ng-click="ctrl.cancel()">&times;</button>
+        <h3 class="modal-title text-center" id="modal-title">Create New Project</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
         <form name="addProjectForm" novalidate>
-          <input type="text" name="name" ng-model="form.name">
-          <button class="btn btn-primary"  type="button" ng-click="ctrl.save(form)">Save</button>
-          <button class="btn btn-warning"  type="button" ng-click="ctrl.cancel()">Cancel</button>
+          <div class="form-group">
+              <input type="text" name="name" id="name" class="form-control input-lg" ng-class="{'input-error': ctrl.error_msg}" ng-change="ctrl.change()" placeholder="Project name" ng-model="form.name" required>
+              <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
+          </div>
+          <button class="btn btn-lg btn-primary btn-full-width" ng-disabled="addProjectForm.$invalid" ng-click="ctrl.save(form)">Create Project</button>
         </form>
     </div>
 </script>

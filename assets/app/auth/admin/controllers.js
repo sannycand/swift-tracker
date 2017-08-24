@@ -32,6 +32,9 @@
         controller: function($uibModalInstance, $rootScope, AuthService) {
           self = this;
 
+          self.cancel = cancel;
+          self.save = save;
+
           // get project none members
           AuthService.users(project.id).then(function(resp){
             self.users = resp.data;
@@ -40,8 +43,8 @@
           // find project index
           var index =  _.findIndex(AuthService.projects, project)
 
-          self.save = function (data) {
-            _.each(data.users, function(user, i){
+          function save (users) {
+            _.each(users, function(user, i){
               
               var form = {
                 "worker": user.id,
@@ -57,7 +60,7 @@
             });
           };
 
-          self.cancel = function () {
+          function cancel () {
             $uibModalInstance.dismiss('cancel');
           };
         }
@@ -76,7 +79,17 @@
         controller: function($uibModalInstance, AuthService) {
           self = this;
 
-          self.save = function (form) {
+          self.change = change;
+          self.save = save;
+          self.cancel = cancel;
+
+          // remove backend error
+          function change () {
+            angular.element(document.getElementById("name")).removeClass("input-error");
+            self.error_msg = undefined;
+          };
+
+          function save (form) {
             AuthService.addProject(form).then(function(resp){
               AuthService.projects.push(resp.data);
               $uibModalInstance.close();
@@ -85,7 +98,7 @@
             });
           };
 
-          self.cancel = function () {
+          function cancel () {
             $uibModalInstance.dismiss('cancel');
           };
         }
@@ -100,7 +113,7 @@
 
     self.logout = logout;
     self.toggle = toggle;
-    self.inviteBtn = inviteBtn;
+    self.inviteUser = inviteUser;
 
     // get current user data
     $scope.$watch(function(){
@@ -118,7 +131,7 @@
       });
     };
 
-    function inviteBtn () {
+    function inviteUser () {
       var modalInstance = $uibModal.open({
         animation: true,
         ariaLabelledBy: 'modal-title',
@@ -129,7 +142,19 @@
         controller: function($uibModalInstance, AuthService) {
           self = this;
 
-          self.save = function (data) {
+          self.save = save;
+          self.cancel = cancel;
+          self.change = change;
+
+          // remove backend error
+          function change () {
+            if (self.error_msg) {
+               angular.element(document.getElementById("email")).removeClass("input-error");
+              self.error_msg = undefined;
+            }
+          };
+
+          function save (data) {
             self.loading = true;
             AuthService.userInvite(data).then(function(resp){
               self.loading = false;
@@ -140,7 +165,7 @@
             });
           };
 
-          self.cancel = function () {
+          function cancel () {
             $uibModalInstance.dismiss('cancel');
           };
         }

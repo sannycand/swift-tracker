@@ -3,13 +3,15 @@
 
   angular
     .module('tracker')
-    .controller('IndexController', IndexController)
+    .controller('LoginController', LoginController)
     .controller('SignupController', SignupController)
   ;
 
   function SignupController ($scope, $state, $stateParams, UserService) {
     var self = this;
 
+    self.currentView = 'no-sidebar';
+    
     self.signUp = signUp;
 
     // signup form
@@ -19,31 +21,25 @@
       UserService.signup(form).then(function(resp) {
         $state.go('index');
       }).catch(function(error) {
-        self.error_msg = error.data.non_field_errors;
+        self.error_msg = error.data;
       });
     };
   }
 
-  function IndexController ($scope, $state, UserService) {
+  function LoginController ($scope, $state, UserService) {
     var self = this;
 
-    self.currentView = 'login';
+    self.currentView = 'no-sidebar';
     
     self.login = login;
-    self.actionView = actionView;
 
     // login form
     function login (form) {
       UserService.login(form).then(function(resp) {
         window.location.reload();
       }).catch(function(error){
-        self.error_msg = error.data;
+        self.error_msg = error.data.non_field_errors[0];
       });
-    };
-
-    // change view action
-    function actionView (action) {
-      self.currentView = action;
     };
 
   };
