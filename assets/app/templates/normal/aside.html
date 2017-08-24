@@ -4,10 +4,10 @@
         <div class="nav-wrapper is-main">
         <ul>
             <li class="active">
-                <a href="" ui-sref="dashboard" ng-class="{'selected':$state.current=='dashboard'}">Projects</a>
+                <a href="" ui-sref="dashboard">Projects</a>
             </li>
             <li>
-                <a href="" ui-sref="tracker" ng-class="{'selected':$state.current=='tracker'}">Tracker</a>
+                <a href="" ui-sref="tracker">Tracker</a>
             </li>
         </ul>
         </div>
@@ -21,7 +21,7 @@
                             <img src="{{ ctrl.user.profile_photo }}">
                         </div>
                     </span>
-                    <span class="inner-content label">{{ ctrl.user.email }}</span>
+                    <span class="inner-content label">{{ ctrl.user.first_name }}</span>
                     <span class="inner-content arrow icon ion-chevron-down"></span>
                     </button>
                 </div>
