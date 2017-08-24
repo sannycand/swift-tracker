@@ -42,7 +42,6 @@
             </div>
             </div>
 
-            <span class="text-danger" ng-show="signupForm.confirm_password.$error.pattern">Password did not match!</span>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -56,7 +55,9 @@
                             ng-model="form.confirm_password" 
                             ng-pattern="form.password" 
                             placeholder="Confirm Password" 
+                            ng-class="{'input-error': signupForm.confirm_password.$error.pattern }"
                             required>
+                        <span class="text-danger" ng-show="signupForm.confirm_password.$error.pattern">Password did not match!</span>
                     </div>
                 </div>
             </div>

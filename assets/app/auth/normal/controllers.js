@@ -55,40 +55,35 @@
 
   };
 
-  function TrackerController($scope, $timeout, AuthService) {
+  function TrackerController($scope, AuthService) {
     var self = this;
 
     self.isReady = false;
-    self.currentLog = {};
     self.startLog = startLog;
     self.stopLog = stopLog;
     self.ready = ready;
 
-    // get current user projects
+    // get user projects
     AuthService.projectMember().then(function(resp){
       self.projects = resp.data;
     });
 
     // get current log
-    AuthService.currentLog().then(function(resp){
+    $scope.$watch(function(){
+      return AuthService.loading;
+    },function(isReady) {
+      if(!isReady) {
+        self.currentLog = AuthService.currentLog;
 
-      self.currentLog = resp.data;
-
-      if (self.currentLog) {
-        var project = _.find(self.projects, function(item){
-            return item.project.id == self.currentLog.project.id;
-        });
-        
-        if (project) {
+        if (self.currentLog) {        
           self.timerRunning = true;
           $scope.description = self.currentLog.description;
-          $scope.project = project;
-          console.log(self.currentLog)
+          $scope.project = self.currentLog.project;
         };
+
       };
-
     });
-
+    
     // enabled start button
     function ready(project, desc) {
       var projectSelected = _.find(self.projects, function(item){

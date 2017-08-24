@@ -12,12 +12,13 @@
     var service = {
       user          : undefined,
       loaded        : false,
+      loading       : false,
+      projects      : [],
+      currentLog    : undefined,
       logout        : logout,
       startLog      : startLog,
       stopLog       : stopLog,
-      currentLog    : currentLog,
       userInvite    : userInvite,
-      projects      : [],
       projectMember : projectMember,
       users         : users,
       addProjectMember: addProjectMember,
@@ -26,6 +27,7 @@
 
     getCurrentUser();
     getProjects();
+    getCurrentLog();
 
     return service;
 
@@ -38,8 +40,13 @@
       });
     };
 
-    function logout() {
-      return $http.get('/api/logout/');
+    function getCurrentLog() {
+      if (service.loading) return;
+      service.loading = true;
+      return $http.get('api/projects/current/log/').then(function(resp){
+        service.loading = false;
+        service.currentLog = resp.data;
+      });
     };
 
     function getProjects() {
@@ -47,6 +54,10 @@
         service.projects = resp.data;
       });
     }
+
+    function logout() {
+      return $http.get('/api/logout/');
+    };
 
     function users(project_id) {
       return $http.get('api/projects/'+ project_id +'/users/');
@@ -71,10 +82,6 @@
     function stopLog(form) {
       return $http.put('api/projects/stop/log/', form);
     }
-
-    function currentLog() {
-      return $http.get('api/projects/current/log/');
-    };
 
     function userInvite(form) {
       return $http.post('api/user/invite/', form);
