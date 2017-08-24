@@ -32,6 +32,12 @@
     self.currentView = 'no-sidebar';
     
     self.login = login;
+    self.change = change
+
+    // remove backend error
+    function change () {
+      self.error_msg = undefined;
+    };
 
     // login form
     function login (form) {
