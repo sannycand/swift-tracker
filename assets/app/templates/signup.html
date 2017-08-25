@@ -1,7 +1,7 @@
 <div class="main-wrapper" ng-class="{'no-sidebar' : ctrl.currentView }">
     <div class="signup-page">
         <form name="signupForm" ng-submit="ctrl.signUp(form)" novalidate>
-            <h2 class="text-center">Register</h2>
+            <h2 class="text-center">SwiftTracker</h2>
             <p ng-show="ctrl.error_msg.non_field_errors" class="text-center text-danger">Ooops, Invalid invitation key!</p>
             <div class="row">
                 <div class="col-md-6">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-lg btn-primary btn-full-width">Submit</button>
+            <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-lg btn-primary btn-full-width">Register</button>
         </form>
     </div>
 </div>
