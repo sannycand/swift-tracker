@@ -2,7 +2,15 @@
 
     <div class="header-wrapper">
         <div class="header-content">
-          <span class="page-title"><h1>Projects</h1></span>
+          <span class="page-title">
+            <h1>Projects</h1>
+            <a href="" ng-click="ctrl.isActive()" class="project-active" ng-class="{'active': !is_archived }">
+              Active ({{ ctrl.AuthService.active_project.length}})
+            </a>
+            <a href="" ng-click="ctrl.isArchived()" class="project-active" ng-class="{'active': is_archived }">
+              Archived ({{ ctrl.AuthService.archived_project.length}})
+            </a>
+          </span>
           <span class="button">
             <a href="" ng-click="ctrl.addProject()" class="btn btn-primary btn-md">
               Create New Project
@@ -14,7 +22,9 @@
     <div class="projects-content">
         <div class="projects-list">
             <div class="group">
-                <div class="item" id="collapse-{{ project.id }}" ng-repeat="project in ctrl.AuthService.projects">
+                <div class="item" ng-class="{'is-open' : project.is_open }"
+                      ng-repeat="project in ctrl.AuthService.projects 
+                      | where:{is_archived: is_archived}">
                     <div class="item-info">
                         <span class="item-icon icon ion-briefcase"></span>
                         <div class="project-title-wrapper">
@@ -27,14 +37,24 @@
                                 <span class="project-company">Owner: {{ project.owner_data.first_name }}  {{ project.owner_data.last_name }}</span>
                             </div>
                         </div>
+                        <div class="action-button"> 
+                          <a href="" ng-click="ctrl.updateProject(project)" uib-popover="Manage Project" popover-trigger="'mouseenter'">
+                            <span class="icon ion-ios-gear"></span>
+                          </a>
+                        </div>
                         <div class="action-button">
-                            <a href="" ng-click="ctrl.addMember(project)">
-                              <span class="icon ion-person-add"></span>
-                            </a>
+                          <a href="" ng-click="ctrl.addMember(project)" uib-popover="Add Member" popover-trigger="'mouseenter'">
+                            <span class="icon ion-person-add"></span>
+                          </a>
+                        </div> 
+                        <span class="separator"></span>
+                        <div class="action-button members">
+                          <span ng-show="project.members.length <= 1" class="icon ion-person"> {{ project.members.length }} member</span>
+                          <span ng-show="project.members.length > 1" class="icon ion-person"> {{ project.members.length }} members</span>
                         </div>
 
                         <div>
-                            <a href="" class="btn-toggle" ng-click="ctrl.toggle(project.id)">
+                            <a href="" class="btn-toggle" ng-click="ctrl.toggle(project)">
                               <span class="inner-content arrow icon ion-chevron-down"></span>
                             </a>
                         </div>
@@ -44,7 +64,7 @@
                             <table class="table table-hover table-bordred table-striped">
                               <thead>
                                 <tr>
-                                  <th>Member</th>
+                                  <th>Members</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -94,10 +114,81 @@
     <div class="modal-body" id="modal-body">
         <form name="addProjectForm" novalidate>
           <div class="form-group">
-              <input type="text" name="name" id="name" class="form-control input-lg" ng-class="{'input-error': ctrl.error_msg}" ng-change="ctrl.change()" placeholder="Project name" ng-model="form.name" required>
-              <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg }}</span>
+              <input type="text" 
+                name="name" 
+                class="form-control input-lg" 
+                ng-class="{'input-error': ctrl.error_msg}" 
+                ng-change="ctrl.change()" 
+                placeholder="Project name" 
+                ng-model="form.name" 
+                required>
+              <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg[0] }}</span>
           </div>
-          <button class="btn btn-lg btn-primary btn-full-width" ng-disabled="addProjectForm.$invalid" ng-click="ctrl.save(form)">Create Project</button>
+          <button class="btn btn-lg btn-primary btn-full-width" 
+            ng-disabled="addProjectForm.$invalid" 
+            ng-click="ctrl.save(form)">Create Project</button>
         </form>
     </div>
 </script>
+
+
+<!-- modal templates -->
+<script type="text/ng-template" id="updateProject.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="ctrl.cancel()">&times;</button>
+        <h3 class="modal-title text-center" id="modal-title">Manage Project</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <form name="updateProjectForm" novalidate>
+          <div class="form-group">
+              <label>Project name:</label>
+              <input type="text" name="name" 
+                class="form-control input-lg" 
+                ng-class="{'input-error': ctrl.error_msg}" 
+                ng-change="ctrl.change()" 
+                placeholder="Project name" 
+                ng-model="ctrl.project.name" 
+                required>
+              <span class="text-danger" ng-show="ctrl.error_msg">{{ ctrl.error_msg[0] }}</span>
+          </div>
+          <div class="form-group">
+          <span class="icon ion-ios-folder"></span>
+            <a href="" ng-click="ctrl.archivedProject(ctrl.project)" ng-show="!ctrl.project.is_archived">Archived Project</a>
+            <a href="" ng-click="ctrl.restoreProject()" ng-show="ctrl.project.is_archived">Restore Project</a>
+          </div>
+        </form>
+
+        <div class="member-list">
+          <h4>Project members</h4>
+          <ul>
+            <li ng-repeat="member in ctrl.project.members">
+              <span>{{ member.email }}</span>
+            </li>
+            <li>
+              <span>{{ ctrl.project.owner_data.email }} (Owner)</span>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-lg btn-primary btn-full-width" 
+        ng-disabled="addProjectForm.$invalid" 
+        ng-click="ctrl.save(ctrl.project)">Update</button>
+    </div>
+</script>
+
+<!-- modal templates -->
+<script type="text/ng-template" id="archivedProject.html">
+    <div class="modal-body text-center" id="modal-body">
+    <h3>Archive this project?</h3>
+    <h4 class="project-title">{{ ctrl.project.name }}</h4>
+    <p class="content">ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua.</p>
+      <div class="action-btn">
+        <button class="btn btn-md btn-primary" ng-click="ctrl.cancel()">Cancel</button>
+        <button class="btn btn-md btn-danger" ng-click="ctrl.archived()">Yes, Archive It</button>
+      </div>
+    </div>
+</script>
+
+

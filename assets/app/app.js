@@ -7,7 +7,8 @@
     'xeditable',
     'timer',
     'moment-picker',
-    'multipleSelect'
+    'multipleSelect',
+    'angular.filter'
     ])
     .constant('TEMPLATE_URL', '/static/app/templates/')
     .config(csrf)

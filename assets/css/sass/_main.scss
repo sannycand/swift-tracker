@@ -20,9 +20,18 @@
     width: 100%;
     border-radius: 0;
 }
+.modal-content {
+    border-radius: 0;
+}
 
 .modal-body {
     padding: 40px;
+}
+
+.separator {
+    width: 1px;
+    height: 27px;
+    background: #d3d7db;
 }
 
 .btn-border-1 {
@@ -53,6 +62,7 @@
                     input {
                         padding: 5px 10px;
                         width: 100%;
+                        border-radius: 0;
                     }
                 }
             }
@@ -65,6 +75,36 @@
         margin-top: 20px;
     }
 }
+
+.member-list {
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+            color: #222425;
+            padding: 10px 5px;
+            border-bottom: 2px solid rgba(193, 201, 209, 0.5);
+            &:first-child {
+                border-top: 2px solid rgba(193, 201, 209, 0.5);
+            }
+        }
+    }
+}
+
+
+.project-active { 
+    padding: 2px 5px;
+    margin: 0;
+    &.active {
+        background-color: #337ab7;
+        color: #fff;
+    }
+    &:hover, &:focus {
+        text-decoration: none;
+    } 
+}
+
 
 .main-wrapper {
     padding: 10px 50px;
@@ -166,8 +206,13 @@
                         background: #f5f5f5;
                     }
                     .action-button {
-                        font-size: 25px;
+                        font-size: 16px;
                         margin-right: 20px;
+                        &.members {
+                            width: 125px;
+                            margin-left: 20px;
+                            color: #527086;
+                        }
                     }
                     .item-icon {
                         flex-basis: 40px;
@@ -213,10 +258,8 @@
                         border-radius: 50%;
                         margin: 0;
                         padding: 0;
-                        border-color: #35bf8a;
-                        background: #35bf8a;
                         .icon {
-                            color: #fff;
+                            color: #337ab7;
                             font-size: 26px;
                         }
                     }

@@ -9,16 +9,43 @@
 
   function ProjectController ($scope, $uibModal, AuthService) {
     var self = this;
-
+    
     self.AuthService = AuthService;
     self.toggle = toggle;
     self.addMember = addMember;
     self.addProject = addProject;
+    self.updateProject = updateProject;
+    self.isArchived = isArchived;
+    self.isActive = isActive;
 
+    $scope.is_archived = false;
+
+    // show archived projects
+    function isArchived () {
+      $scope.is_archived = true;
+    }
+
+    // show active projects
+    function isActive () {
+      $scope.is_archived = false;
+    }
+
+    $scope.$watch(function(){
+      return AuthService.loading;
+    },function(isReady) {
+      if(!isReady) {
+        AuthService.archived_project = _.where(AuthService.projects, { is_archived: true });
+        AuthService.active_project = _.where(AuthService.projects, { is_archived: false });
+      };
+    });
+    
     // project toggle 
-    function toggle (id) {
-      var projectID = "collapse-" + id;
-      angular.element(document.getElementById(projectID)).toggleClass("is-open");
+    function toggle (project) {
+      if (project.is_open) {
+        project.is_open = false;
+      } else {
+        project['is_open'] = true;
+      }
     };
 
     function addMember (project) {
@@ -85,7 +112,6 @@
 
           // remove backend error
           function change () {
-            angular.element(document.getElementById("name")).removeClass("input-error");
             self.error_msg = undefined;
           };
 
@@ -94,7 +120,7 @@
               AuthService.projects.push(resp.data);
               $uibModalInstance.close();
             }).catch(function(error) {
-              self.error_msg = error.data.non_field_errors[0]
+              self.error_msg = error.data
             });
           };
 
@@ -106,6 +132,81 @@
       });
     };
 
+    function updateProject (project) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'updateProject.html',
+        size: 'md',
+        controllerAs: 'ctrl',
+        controller: function($scope, $uibModalInstance, AuthService) {
+          self = this;
+
+          self.change = change;
+          self.save = save;
+          self.cancel = cancel;
+          self.archivedProject = archivedProject;
+          self.restoreProject = restoreProject;
+
+          self.project = project;
+
+          // remove backend error
+          function change () {
+            self.error_msg = undefined;
+          };
+
+          function save (form) {
+            AuthService.updateProject(project.id, form).then(function(resp){ 
+              $uibModalInstance.close();
+              AuthService.archived_project = _.where(AuthService.projects, { is_archived: true });
+              AuthService.active_project = _.where(AuthService.projects, { is_archived: false });
+            }).catch(function(error) {
+              self.error_msg = error.data; 
+            });
+          };
+
+          function cancel () {
+            $uibModalInstance.close();
+          };
+
+          function restoreProject () {
+            var index =  _.findIndex(AuthService.projects, project)
+            AuthService.projects[index].is_archived = false;
+          };
+
+          function archivedProject (project) {
+            var modalInstance = $uibModal.open({
+              animation: true,
+              ariaLabelledBy: 'modal-title',
+              ariaDescribedBy: 'modal-body',
+              templateUrl: 'archivedProject.html',
+              size: 'md',
+              controllerAs: 'ctrl',
+              controller: function($scope, $uibModalInstance, AuthService) {
+                var self = this;
+                
+                self.project = project;
+                self.archived = archived;
+                self.cancel = cancel;
+
+                function archived () {
+                  var index =  _.findIndex(AuthService.projects, project)
+
+                  AuthService.projects[index].is_archived = true;
+                  $uibModalInstance.close();
+                };
+
+                function cancel () {
+                  $uibModalInstance.close();
+                };
+
+              }
+            });
+          }
+        }
+      });
+    };
   };
 
   function AsideController ($scope, $uibModal, AuthService) {

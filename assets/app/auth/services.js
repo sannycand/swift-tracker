@@ -13,8 +13,11 @@
       user          : undefined,
       loaded        : false,
       loading       : false,
-      projects      : [],
+      logLoading    : false,
       currentLog    : undefined,
+      projects      : [],
+      active_project : [],
+      archived_project : [],
       logout        : logout,
       startLog      : startLog,
       stopLog       : stopLog,
@@ -22,7 +25,8 @@
       projectMember : projectMember,
       users         : users,
       addProjectMember: addProjectMember,
-      addProject : addProject
+      addProject : addProject,
+      updateProject : updateProject
     };
 
     getCurrentUser();
@@ -41,19 +45,22 @@
     };
 
     function getCurrentLog() {
-      if (service.loading) return;
-      service.loading = true;
+      if (service.logLoading) return;
+      service.logLoading = true;
       return $http.get('api/projects/current/log/').then(function(resp){
-        service.loading = false;
+        service.logLoading = false;
         service.currentLog = resp.data;
       });
     };
 
     function getProjects() {
+      if (service.loading) return;
+      service.loading = true;
       return $http.get('api/projects/').then(function(resp){
+        service.loading = false;
         service.projects = resp.data;
       });
-    }
+    };
 
     function logout() {
       return $http.get('/api/logout/');
@@ -69,6 +76,10 @@
 
     function addProject(form) {
       return $http.post('api/projects/add/', form);
+    }
+
+    function updateProject(project_id, form) {
+      return $http.put('api/projects/' + project_id + '/', form);
     }
 
     function projectMember() {
