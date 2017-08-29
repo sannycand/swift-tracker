@@ -18,7 +18,7 @@ from .models import Member, Log, Project
 class ProjectMemberAPI(viewsets.ViewSet):
     
     def user_projects(self, *args, **kwargs):
-        projects = Member.objects.filter(worker=self.request.user)
+        projects = Member.objects.filter(worker=self.request.user, project__is_archived=False)
         return Response(MemberSerializer(projects, many=True).data, status=200)
 
 
@@ -62,7 +62,6 @@ class ProjectAPI(viewsets.ViewSet):
             Project.objects.all(), many=True).data, status=200)
 
     def users(self, *args, **kwargs):
-        
         users = User.objects.exclude(id=self.request.user.id)
         project = get_object_or_404(Project, id=kwargs['project_id'])
         users_id = Member.objects.filter(project=project).values_list('worker_id', flat=True)
@@ -88,3 +87,12 @@ class ProjectAPI(viewsets.ViewSet):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
+    def update_project(self, *args, **kwargs):
+        project = get_object_or_404(Project, id=kwargs['project_id'])
+
+        serializer = ProjectSerializer(project, data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)

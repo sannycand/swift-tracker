@@ -5,6 +5,7 @@ from .views import ProjectMemberAPI, LogAPI, ProjectAPI
 urlpatterns = [
     url(r'^$', ProjectAPI.as_view({'get': 'projects'}), name="projects"),
     url(r'^add/$', ProjectAPI.as_view({'post': 'add_project'}), name="add-project"),
+    url(r'^(?P<project_id>\d+)/$', ProjectAPI.as_view({'put': 'update_project'}), name="update-project"),
     url(r'^(?P<project_id>\d+)/users/$', ProjectAPI.as_view({'get': 'users'}), name="users"),
     url(r'^add/member/$', ProjectAPI.as_view({'post': 'add_member'}), name="add-member"),
     url(r'^member/$', ProjectMemberAPI.as_view({'get': 'user_projects'}), name="user-projects"),

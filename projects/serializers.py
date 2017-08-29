@@ -35,15 +35,25 @@ class ProjectSerializer(serializers.ModelSerializer):
         users = User.objects.filter(id__in=members_id)
         return UserSerializer(users, many=True).data
 
-    def validate(self, data):
-        project = Project.objects.filter(name__iexact=data.get('name'))
+    def create(self, validated_data):
+        project = Project.objects.filter(name__iexact=validated_data.get('name'))
         if project.exists():
             raise serializers.ValidationError("Project name already exist!")
         
-        return data
-
-    def create(self, validated_data):
         return Project.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        name = validated_data.get('name')
+        if instance.name != name:
+            project = Project.objects.filter(name__iexact=name)
+            if project.exists():
+                raise serializers.ValidationError("Project name already exist!")
+
+        instance.name = name
+        instance.is_archived = validated_data.get('is_archived', instance.is_archived)
+        instance.save()
+
+        return instance
 
 
 class MemberSerializer(serializers.ModelSerializer):
